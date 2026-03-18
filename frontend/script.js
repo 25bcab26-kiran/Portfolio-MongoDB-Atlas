@@ -1,40 +1,36 @@
 document.querySelector("button").addEventListener("click", async () => {
 
-const nameInput = document.querySelector("input")
-const emailInput = document.querySelectorAll("input")[1]
-const messageInput = document.querySelector("textarea")
+  const nameInput = document.getElementById("name")
+  const emailInput = document.getElementById("email")
+  const messageInput = document.getElementById("message")
 
-const name = nameInput.value
-const email = emailInput.value
-const message = messageInput.value
+  const name = nameInput.value
+  const email = emailInput.value
+  const message = messageInput.value
 
-if(!name || !email || !message){
-alert("Please fill all fields")
-return
-}
+  if (!name || !email || !message) {
+    alert("Please fill all fields")
+    return
+  }
 
-try{
+  try {
+    const res = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, email, message })
+    })
 
-const response = await fetch("https://portfolio1-1-kuq4.onrender.com/api/contact",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({name,email,message})
-})
+    const data = await res.json()
+    alert(data.message)
 
-const data = await response.json()
+    nameInput.value = ""
+    emailInput.value = ""
+    messageInput.value = ""
 
-alert(data.message || "Message Sent!")
-
-nameInput.value=""
-emailInput.value=""
-messageInput.value=""
-
-}catch(error){
-
-alert("Server Error")
-
-}
+  } catch (err) {
+    alert("Error sending message")
+  }
 
 })

@@ -1,18 +1,19 @@
 const express = require("express")
 const cors = require("cors")
+require("dotenv").config()
 
-const db = require("./db")
-const contactRoutes = require("./routes/contactRoutes")
+const connectMongo = require("./config/mongo")
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-app.use("/api",contactRoutes)
+connectMongo()
 
-const PORT = process.env.PORT || 5000
+const contactRoutes = require("./routes/contactRoutes")
+app.use("/api/contact", contactRoutes)
 
-app.listen(PORT,()=>{
-console.log("Server running")
+app.listen(5000, () => {
+  console.log("Server running on port 5000")
 })
