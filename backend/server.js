@@ -6,21 +6,26 @@ const connectMongo = require("./config/mongo")
 
 const app = express()
 
-app.use(cors({
-  origin: "*"
-}))
+// Middleware
+app.use(cors())
 app.use(express.json())
 
+// DB connect
 connectMongo()
 
+// 👉 IMPORT ROUTES
 const contactRoutes = require("./routes/contactRoutes")
+
+// 👉 USE ROUTES
+app.use("/api/contact", contactRoutes)
+
+// 👉 HOME ROUTE (to avoid Not Found)
 app.get("/", (req, res) => {
-  res.send("Server is running 🚀")
+  res.send("Server running 🚀")
 })
 
-// ✅ FIXED PORT
-const PORT = process.env.PORT || 5000;
-
+// 👉 PORT (IMPORTANT for Render)
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  console.log(`Server running on port ${PORT}`)
+})

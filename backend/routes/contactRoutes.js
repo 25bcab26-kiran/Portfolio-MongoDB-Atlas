@@ -1,26 +1,21 @@
 const express = require("express")
 const router = express.Router()
-const Contact = require("../models/Contact")
 
-// POST - Save contact
-router.post("/", async (req, res) => {
-  try {
-    const { name, email, message } = req.body
+// ✅ TEST ROUTE
+router.get("/", (req, res) => {
+  res.send("Contact API working ✅")
+})
 
-    const newContact = new Contact({
-      name,
-      email,
-      message
-    })
+// ✅ POST route (your form)
+router.post("/", (req, res) => {
+  const { name, email, message } = req.body
 
-    await newContact.save()
+  console.log("New Contact:", name, email, message)
 
-    // ✅ updated response
-    res.status(201).json({ message: "Message saved successfully" })
-
-  } catch (error) {
-    res.status(500).json({ message: "Error saving data" })
-  }
+  res.status(200).json({
+    success: true,
+    message: "Message received ✅"
+  })
 })
 
 module.exports = router
