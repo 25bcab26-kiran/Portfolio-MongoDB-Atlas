@@ -14,7 +14,9 @@ app.use(express.json())
 connectMongo()
 
 const contactRoutes = require("./routes/contactRoutes")
-app.use("/api/contact", contactRoutes)
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀")
+})
 
 // ✅ FIXED PORT
 const PORT = process.env.PORT || 5000;
